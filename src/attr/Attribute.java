@@ -1,9 +1,7 @@
 package type.attr;
 
-import jdk.jfr.Label;
-
 public record Attribute<T>(String lookup, T data) {
-    @Label("Unused")
+
     private String cleanString (String in) {
         while(Character.isWhitespace(in.charAt(0))) {
             in = in.substring(1);

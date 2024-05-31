@@ -1,5 +1,6 @@
 package type.io;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -17,6 +18,20 @@ public class ImportHandler implements ImportHelper {
         adjustWhiteSpaceChars(' ', '\t');
     }
 
+    public <T extends ImportableAttrObject<?>> T createFromFile(String fileName, Class<T> clazz) {
+        loadFile(fileName);
+        String identifier = read();
+        try {
+            Constructor<T> constructor = clazz.getConstructor(String.class);
+            T obj = constructor.newInstance(identifier);
+            obj.readFromFile(this);
+            return obj;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @Override
     public void loadFile(String pathToFile) {
         this.fullDataString = readContentOfFile(pathToFile);
@@ -32,9 +47,9 @@ public class ImportHandler implements ImportHelper {
         consumeWhiteSpaces();
         char c;
         StringBuilder builder = new StringBuilder();
-        while (changedDataString.length() > 0) {
+        while (!changedDataString.isEmpty()) {
             if (isSpecialSign(c = consume())) {
-                while (changedDataString.length() > 0 && isSpecialSign(peak())) {
+                while (!changedDataString.isEmpty() && isSpecialSign(peak())) {
                     consume();
                 }
                 break;
@@ -91,7 +106,7 @@ public class ImportHandler implements ImportHelper {
     }
 
     private void consumeWhiteSpaces() {
-        if (changedDataString.length() == 0) {
+        if (changedDataString.isEmpty()) {
             return;
         }
         while (isWhiteSpace(changedDataString.charAt(0))) {

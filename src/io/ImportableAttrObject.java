@@ -15,6 +15,9 @@ public abstract class ImportableAttrObject<T> extends AttrObject<T> {
     public ImportableAttrObject(String identifier, Attribute<T>... attributes) {
         super(identifier, attributes);
     }
+    public ImportableAttrObject(String identifier) {
+        super(identifier);
+    }
 
     public void readFromFile(ImportHelper importHelper) {
         int depth = importHelper.getDepth();

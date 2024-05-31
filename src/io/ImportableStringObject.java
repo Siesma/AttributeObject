@@ -7,6 +7,10 @@ public class ImportableStringObject extends ImportableAttrObject<String> {
         super(identifier, attributes);
     }
 
+    public ImportableStringObject(String identifier) {
+        super(identifier);
+    }
+
     @Override
     protected String fromString(String value) {
         return value;
