@@ -4,8 +4,8 @@ public class AttributeIdentifier<T> {
     private boolean exists;
     private Attribute<T> attribute;
 
-    public AttributeIdentifier(boolean exists, Attribute<T> attribute) {
-        this.exists = exists;
+    public AttributeIdentifier(Attribute<T> attribute) {
+        this.exists = attribute != null;
         this.attribute = attribute;
     }
 
