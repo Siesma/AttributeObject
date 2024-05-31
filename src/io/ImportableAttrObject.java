@@ -10,12 +10,16 @@ import java.awt.*;
 import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
 
-public interface ImportableAttrObject<T> extends AttrObject<T> {
+public abstract class ImportableAttrObject<T> extends AttrObject<T> {
 
-    default void readFromFile(ImportHelper importHelper) {
+    public ImportableAttrObject(String identifier, Attribute<T>... attributes) {
+        super(identifier, attributes);
+    }
+
+    public void readFromFile(ImportHelper importHelper) {
         int depth = importHelper.getDepth();
         String cur;
-        while (depth == importHelper.getDepth() && !(cur = importHelper.read()).equalsIgnoreCase("")) {
+        while (depth == importHelper.getDepth() && !(cur = importHelper.read()).equalsIgnoreCase("") /*means that the object is done*/) {
             if (depth < importHelper.getDepth()) {
                 // Nested object
                 AttrObject<T> field = readField(importHelper, cur);
@@ -30,38 +34,14 @@ public interface ImportableAttrObject<T> extends AttrObject<T> {
         }
     }
 
-    default AttrObject<T> readField(ImportHelper importHelper, String identifier) {
+    protected AttrObject<T> readField(ImportHelper importHelper, String identifier) {
         ImportableAttrObject<T> val = createNew(identifier);
         val.readFromFile(importHelper);
         return val;
     }
 
-    default ImportableAttrObject<T> createNew(String identifier) {
-        HashMap<Identifier, Attribute<T>> attrMap = new HashMap<>();
-        HashMap<String, Identifier> idenMap = new HashMap<>();
-        HashMap<String, AttrObject<T>> fieldMap = new HashMap<>();
-
-        ImportableAttrObject<T> val = new ImportableAttrObject<T>() {
-            @Override
-            public HashMap<String, AttrObject<T>> getFieldMap() {
-                return fieldMap;
-            }
-
-            @Override
-            public HashMap<Identifier, Attribute<T>> getAttributeMap() {
-                return attrMap;
-            }
-
-            @Override
-            public HashMap<String, Identifier> getIdentifierMap() {
-                return idenMap;
-            }
-
-            @Override
-            public String getOwnIdentifier() {
-                return identifier;
-            }
-
+    protected static <T> ImportableAttrObject<T> createNew(String identifier) {
+        ImportableAttrObject<T> val = new ImportableAttrObject<T>(identifier) {
             @Override
             public T fromString(String s) {
                 // TODO: Figure out a way to parse a string to an object of type T
@@ -79,10 +59,6 @@ public interface ImportableAttrObject<T> extends AttrObject<T> {
     @Label("Unused")
     private String simpleClassName(Class<?> clazz) {
         return clazz.getSimpleName();
-    }
-
-    default void appendToFile(ExportHelper exportHelper) {
-
     }
 
 }
