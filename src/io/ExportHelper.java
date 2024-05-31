@@ -2,7 +2,7 @@ package type.io;
 
 import java.util.Arrays;
 
-public interface ExportHelper {
+interface ExportHelper {
 
     void createFile(String pathToFile, String fileName);
 
