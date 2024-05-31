@@ -1,0 +1,13 @@
+MyExampleConstruct {
+	VariableA: ValueA
+	VariableB: ValueB
+	VariableC: ValueC
+	OtherRecursiveConstruct {
+	    VariableD: ValueD
+	}
+	Variants {
+        SpecialVariant {
+            VariableA: This "SpecialVariant" is the same Construct as "MyExampleConstruct", but the value of VariableA will be this long string
+        }
+	}
+}
