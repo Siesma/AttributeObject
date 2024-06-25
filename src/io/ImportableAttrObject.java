@@ -3,12 +3,6 @@ package type.io;
 import jdk.jfr.Label;
 import type.AttrObject;
 import type.attr.Attribute;
-import type.attr.Identifier;
-
-import javax.swing.text.SimpleAttributeSet;
-import java.awt.*;
-import java.lang.reflect.ParameterizedType;
-import java.util.HashMap;
 
 public abstract class ImportableAttrObject<T> extends AttrObject<T> {
 
