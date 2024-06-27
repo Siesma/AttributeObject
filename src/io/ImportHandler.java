@@ -54,7 +54,9 @@ public class ImportHandler implements ImportHelper {
                 }
                 break;
             }
-            consumeWhiteSpaces();
+            if(isTrailingWhiteSpace(changedDataString)) {
+                consumeWhiteSpaces();
+            }
             builder.append(c);
         }
         return builder.toString();
@@ -112,6 +114,19 @@ public class ImportHandler implements ImportHelper {
         while (isWhiteSpace(changedDataString.charAt(0))) {
             changedDataString = changedDataString.substring(1);
         }
+    }
+
+    public boolean isTrailingWhiteSpace(String s) {
+        for(Character c : s.toCharArray()) {
+            if(isSpecialSign(c)) {
+                return true;
+            }
+            if(isWhiteSpace(c)) {
+                continue;
+            }
+            return false;
+        }
+        return true;
     }
     private boolean isWhiteSpace(char c) {
         for (Character character : whiteSpaceChars) {

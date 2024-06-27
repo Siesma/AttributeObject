@@ -174,7 +174,7 @@ public abstract class AttrObject<T> {
      * @param lookup of the field
      * @return The given field. Returns null if the lookup is not defined
      */
-    AttrObject<T> getField(String lookup) {
+    public AttrObject<T> getField(String lookup) {
         return getFieldMap().getOrDefault(lookup, null);
     }
 
