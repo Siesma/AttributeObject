@@ -37,6 +37,7 @@ public class ImportHandler implements ImportHelper {
         this.fullDataString = readContentOfFile(pathToFile);
         this.changedDataString = fullDataString;
     }
+
     @Override
     public int getDepth() {
         return specialSigns.size();
@@ -61,11 +62,8 @@ public class ImportHandler implements ImportHelper {
         return truncate(builder.toString());
     }
 
-    private String truncate (String in) {
+    private String truncate(String in) {
         int trun = isTrailingWhiteSpace(in);
-        if(trun == -1) {
-            return in;
-        }
         return in.substring(0, in.length() - trun);
     }
 
@@ -79,12 +77,13 @@ public class ImportHandler implements ImportHelper {
             }
         }
     }
+
     private void adjustWhiteSpaceChars(Character... chars) {
         if (whiteSpaceChars == null) {
             this.whiteSpaceChars = new ArrayList<>();
         }
         for (Character c : chars) {
-            if(c == '{' || c == '}') {
+            if (c == '{' || c == '}') {
                 System.out.println("\"{\" and \"}\" have special push and pop operations, they can not be implicit special chars");
                 continue;
             }
@@ -93,6 +92,7 @@ public class ImportHandler implements ImportHelper {
             }
         }
     }
+
     private boolean isSpecialSign(char c) {
         if (c == '{') {
             specialSigns.push(c);
@@ -110,7 +110,7 @@ public class ImportHandler implements ImportHelper {
         return false;
     }
 
-    public String getChangedDataString () {
+    public String getChangedDataString() {
         return changedDataString;
     }
 
@@ -143,12 +143,15 @@ public class ImportHandler implements ImportHelper {
         }
         return false;
     }
+
     private char peak() {
         return changedDataString.charAt(0);
     }
+
     private char peak(int n) {
         return changedDataString.charAt(n);
     }
+
     private char consume() {
         char firstChar = changedDataString.charAt(0);
         changedDataString = changedDataString.substring(1);
