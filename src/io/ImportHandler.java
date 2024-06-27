@@ -54,12 +54,19 @@ public class ImportHandler implements ImportHelper {
                 }
                 break;
             }
-            if(isTrailingWhiteSpace(changedDataString)) {
-                consumeWhiteSpaces();
-            }
+
             builder.append(c);
         }
-        return builder.toString();
+
+        return truncate(builder.toString());
+    }
+
+    private String truncate (String in) {
+        int trun = isTrailingWhiteSpace(in);
+        if(trun == -1) {
+            return in;
+        }
+        return in.substring(0, in.length() - trun);
     }
 
     private void adjustSpecialChars(Character... chars) {
@@ -116,15 +123,18 @@ public class ImportHandler implements ImportHelper {
         }
     }
 
-    public boolean isTrailingWhiteSpace(String s) {
-        for(Character c : s.toCharArray()) {
-            if(isWhiteSpace(c)) {
-                continue;
+    public int isTrailingWhiteSpace(String str) {
+        int count = 0;
+        for (int i = str.length() - 1; i >= 0; i--) {
+            if (isWhiteSpace(str.charAt(i))) {
+                count++;
+            } else {
+                break;
             }
-            return false;
         }
-        return true;
+        return count;
     }
+
     private boolean isWhiteSpace(char c) {
         for (Character character : whiteSpaceChars) {
             if (c == character) {
@@ -135,6 +145,9 @@ public class ImportHandler implements ImportHelper {
     }
     private char peak() {
         return changedDataString.charAt(0);
+    }
+    private char peak(int n) {
+        return changedDataString.charAt(n);
     }
     private char consume() {
         char firstChar = changedDataString.charAt(0);
