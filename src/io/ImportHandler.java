@@ -118,9 +118,6 @@ public class ImportHandler implements ImportHelper {
 
     public boolean isTrailingWhiteSpace(String s) {
         for(Character c : s.toCharArray()) {
-            if(isSpecialSign(c)) {
-                return true;
-            }
             if(isWhiteSpace(c)) {
                 continue;
             }
