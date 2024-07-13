@@ -194,9 +194,9 @@ public abstract class AttrObject<T> {
      * Primary way of adding a field to the list of Fields
      * A field is a recursive AttrObject
      *
-     * @param attribute that shall be added, does nothing if the Attribute already existed
+     * @param field that shall be added, does nothing if the Field already existed
      */
-    public void addAttribute(AttrObject<T> field) {
+    public void addField(AttrObject<T> field) {
         if (checkIfFieldExists(field)) {
             return;
         }
