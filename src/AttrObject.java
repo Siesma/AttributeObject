@@ -191,6 +191,19 @@ public abstract class AttrObject<T> {
     }
 
     /**
+     * Primary way of adding a field to the list of Fields
+     * A field is a recursive AttrObject
+     *
+     * @param attribute that shall be added, does nothing if the Attribute already existed
+     */
+    public void addAttribute(AttrObject<T> field) {
+        if (checkIfFieldExists(field)) {
+            return;
+        }
+        getFieldMap().put(field.getOwnIdentifier(), field);
+    }
+
+    /**
      * Finds a field given by a name
      *
      * @param fieldName of the field
@@ -257,6 +270,16 @@ public abstract class AttrObject<T> {
      */
     public boolean checkIfAttributeExists(String lookup) {
         return getAttributeMap().containsKey(obtainIdentifier(lookup));
+    }
+
+    /**
+     * Checks if a field already Exists
+     *
+     * @param lookup string of the Field
+     * @return whether the Field exists or not
+     */
+    public boolean checkIfFieldExists(AttrObject<T> lookup) {
+        return getFieldMap().containsKey(lookup.getOwnIdentifier());
     }
 
     /**
