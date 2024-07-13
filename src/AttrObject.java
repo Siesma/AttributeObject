@@ -44,6 +44,13 @@ public abstract class AttrObject<T> {
     }
 
     /**
+     * @return A collection of all saved Attributes of this AttrObject
+     */
+    public Collection<Attribute<T>> getAllAttributes () {
+        return getAttributeMap().values();
+    }
+
+    /**
      * An Identifier is a qualifier within a field, a simple "ID:Attribute" pair
      * @return Map containing all identifiers of this field.
      */
