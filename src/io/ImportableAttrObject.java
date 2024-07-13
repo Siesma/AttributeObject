@@ -13,7 +13,7 @@ public abstract class ImportableAttrObject<T> extends AttrObject<T> {
         super(identifier);
     }
 
-    public void readFromFile(ImportHelper importHelper) {
+    public void read(ImportHelper importHelper) {
         int depth = importHelper.getDepth();
         String cur;
         while (depth == importHelper.getDepth() && !(cur = importHelper.read()).equalsIgnoreCase("") /*means that the object is done*/) {
@@ -30,10 +30,9 @@ public abstract class ImportableAttrObject<T> extends AttrObject<T> {
             }
         }
     }
-
     protected AttrObject<T> readField(ImportHelper importHelper, String identifier) {
         ImportableAttrObject<T> val = createNew(identifier);
-        val.readFromFile(importHelper);
+        val.read(importHelper);
         return val;
     }
 

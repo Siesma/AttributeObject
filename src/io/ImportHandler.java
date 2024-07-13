@@ -20,17 +20,27 @@ public class ImportHandler implements ImportHelper {
 
     public <T extends ImportableAttrObject<?>> T createFromFile(String fileName, Class<T> clazz) {
         loadFile(fileName);
+        return create(clazz);
+    }
+    public <T extends ImportableAttrObject<?>> T createFromString(String content, Class<T> clazz) {
+        this.fullDataString = content;
+        this.changedDataString = fullDataString;
+        return create(clazz);
+    }
+
+    private <T extends ImportableAttrObject<?>> T create(Class<T> clazz) {
         String identifier = read();
         try {
             Constructor<T> constructor = clazz.getConstructor(String.class);
             T obj = constructor.newInstance(identifier);
-            obj.readFromFile(this);
+            obj.read(this);
             return obj;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
+
 
     @Override
     public void loadFile(String pathToFile) {
