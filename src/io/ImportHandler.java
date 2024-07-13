@@ -14,7 +14,7 @@ public class ImportHandler implements ImportHelper {
 
     public ImportHandler() {
         this.specialSigns = new Stack<>();
-        adjustSpecialChars(':', '\n', ',');
+        adjustSpecialChars(':', '\n');
         adjustWhiteSpaceChars(' ', '\t');
     }
 
