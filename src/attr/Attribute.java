@@ -1,19 +1,56 @@
 package type.attr;
 
-public record Attribute<T>(String lookup, T data) {
+public class Attribute<T> {
+    private final String lookup;
+    private T data;
 
-    private String cleanString (String in) {
-        while(Character.isWhitespace(in.charAt(0))) {
+    public Attribute(String lookup, T data) {
+        this.lookup = lookup;
+        this.data = data;
+    }
+
+    public String lookup() {
+        return lookup;
+    }
+
+    public T data() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    private String cleanString(String in) {
+        while (Character.isWhitespace(in.charAt(0))) {
             in = in.substring(1);
         }
-        while(Character.isWhitespace(in.charAt(in.length() - 1))) {
+        while (Character.isWhitespace(in.charAt(in.length() - 1))) {
             in = in.substring(0, in.length() - 1);
         }
         return in;
     }
+
     @Override
-    public String toString () {
-//        return String.format("\"%s\":\n\t%s", this.lookup, cleanString(data.toString()).replaceAll("\n", "\n\t"));
-        return String.format("\t%s: %s\n", lookup(), data());
+    public String toString() {
+        return String.format("\t%s: %s\n", lookup, data);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Attribute<?> attribute = (Attribute<?>) o;
+
+        if (!lookup.equals(attribute.lookup)) return false;
+        return data.equals(attribute.data);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = lookup.hashCode();
+        result = 31 * result + data.hashCode();
+        return result;
     }
 }
