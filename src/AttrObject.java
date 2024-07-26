@@ -278,6 +278,19 @@ public abstract class AttrObject<T> {
         this.getAttributeMap().remove(identifier);
     }
 
+
+    /**
+     * Removes a Field
+     *
+     * @param lookup of the Field that has to be removed
+     */
+    public void removeField(String lookup) {
+        this.getFieldMap().remove(lookup);
+    }
+
+
+
+
     /**
      * Checks if an attribute Exists
      *
