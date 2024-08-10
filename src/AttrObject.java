@@ -113,6 +113,11 @@ public abstract class AttrObject<T> {
         return new AttributeIdentifier<>(null);
     }
 
+
+    public void adjustAttribute (String lookup, T data) {
+        getAttribute(lookup).setData(data);
+    }
+
     /**
      * Check if the AttrObject holds data for an additional AttrObject
      *

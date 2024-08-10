@@ -11,6 +11,10 @@ public class ImportableStringObject extends ImportableAttrObject<String> {
         super(identifier);
     }
 
+    public ImportableStringObject (ImportableAttrObject<?> other) {
+        super(other.getOwnIdentifier());
+    }
+
     @Override
     protected String fromString(String value) {
         return value;
