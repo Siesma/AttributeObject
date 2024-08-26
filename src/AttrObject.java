@@ -347,7 +347,7 @@ public abstract class AttrObject<T> {
             if (attr.lookup().equals("Name")) {
                 continue;
             }
-            builder.append(attr);
+            builder.append(attr).append(";").append("\n");
         }
         // alternative way, if the name is not first to be printed
 //        getAttributeMap().values().forEach(builder::append);

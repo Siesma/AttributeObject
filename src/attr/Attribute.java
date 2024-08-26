@@ -33,7 +33,7 @@ public class Attribute<T> {
 
     @Override
     public String toString() {
-        return String.format("\t%s: %s\n", lookup, data);
+        return String.format("\t%s: %s", lookup, data);
     }
 
     @Override

@@ -14,8 +14,8 @@ public class ImportHandler implements ImportHelper {
 
     public ImportHandler() {
         this.specialSigns = new Stack<>();
-        adjustSpecialChars(':', '\n');
-        adjustWhiteSpaceChars(' ', '\t');
+        adjustSpecialChars(':', ';');
+        adjustWhiteSpaceChars(' ', '\t', '\n');
     }
 
     public <T extends ImportableAttrObject<?>> T createFromFile(String fileName, Class<T> clazz) {
