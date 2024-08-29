@@ -16,7 +16,7 @@ public class ImportableStringObject extends ImportableAttrObject<String> {
     }
 
     @Override
-    protected String fromString(String value) {
+    public String fromString(String value) {
         return value;
     }
 }

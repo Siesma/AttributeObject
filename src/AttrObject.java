@@ -74,7 +74,7 @@ public abstract class AttrObject<T> {
      * @param value that has to be parsed
      * @return a new Object of type T
      */
-    protected abstract T fromString(String value);
+    public abstract T fromString(String value);
 
 
     /**
