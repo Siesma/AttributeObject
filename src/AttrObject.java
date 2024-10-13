@@ -115,6 +115,9 @@ public abstract class AttrObject<T> {
 
 
     public void adjustAttribute (String lookup, T data) {
+        if(!hasGivenAttribute(lookup).doesExist()) {
+            addAttribute(lookup, data);
+        }
         getAttribute(lookup).setData(data);
     }
 
@@ -209,6 +212,16 @@ public abstract class AttrObject<T> {
             return;
         }
         getAttributeMap().put(obtainIdentifier(attribute.lookup()), attribute);
+    }
+
+    /**
+     * Secondary way of adding an attribute to the list of Attributes
+     *
+     * @param lookup of the newly added attribute
+     * @param data of the newly added attribute
+     */
+    public void addAttribute(String lookup, T data) {
+        addAttribute(new Attribute<>(lookup, data));
     }
 
     /**
