@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-interface ImportHelper {
+public interface ImportHelper {
 
     /**
      * Requires an internal field to save the data

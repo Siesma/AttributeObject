@@ -1,5 +1,7 @@
 package type.io;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Stack;
@@ -27,6 +29,26 @@ public class ImportHandler implements ImportHelper {
         this.changedDataString = fullDataString;
         return create(clazz);
     }
+
+    public <T extends ImportableAttrObject<?>> T createFromStream(BufferedReader stream, Class<T> clazz) {
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            String line;
+            while ((line = stream.readLine()) != null) {
+                stringBuilder.append(line).append("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        this.fullDataString = stringBuilder.toString();
+        this.changedDataString = this.fullDataString;
+
+        return create(clazz);
+    }
+
+
+
 
     private <T extends ImportableAttrObject<?>> T create(Class<T> clazz) {
         String identifier = read();
