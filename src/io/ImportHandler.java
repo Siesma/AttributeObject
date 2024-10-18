@@ -13,32 +13,34 @@ public class ImportHandler implements ImportHelper {
     private final Stack<Character> specialSigns;
     private ArrayList<Character> specialChars;
     private ArrayList<Character> whiteSpaceChars;
+    private char endOfStreamChar;
 
     public ImportHandler() {
         this.specialSigns = new Stack<>();
         adjustSpecialChars(':', ';');
         adjustWhiteSpaceChars(' ', '\t', '\n');
+        this.endOfStreamChar = '\r';
     }
 
     public <T extends ImportableAttrObject<?>> T createFromFile(String fileName, Class<T> clazz) {
         loadFile(fileName);
         return create(clazz);
     }
+
     public <T extends ImportableAttrObject<?>> T createFromString(String content, Class<T> clazz) {
         this.fullDataString = content;
         this.changedDataString = fullDataString;
         return create(clazz);
     }
 
-    public <T extends ImportableAttrObject<?>> T createFromStream(BufferedReader stream, Class<T> clazz) {
+    public <T extends ImportableAttrObject<?>> T createFromStream(BufferedReader stream, Class<T> clazz) throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
-        try {
-            String line;
-            while ((line = stream.readLine()) != null) {
-                stringBuilder.append(line).append("\n");
+        int charRead;
+        while ((charRead = stream.read()) != -1) {
+            if ((char) charRead == endOfStreamChar) {
+                break;
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            stringBuilder.append((char) charRead);
         }
 
         this.fullDataString = stringBuilder.toString();
@@ -46,8 +48,6 @@ public class ImportHandler implements ImportHelper {
 
         return create(clazz);
     }
-
-
 
 
     private <T extends ImportableAttrObject<?>> T create(Class<T> clazz) {

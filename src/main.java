@@ -23,12 +23,12 @@ public class main {
         System.out.println(serializedData);
 
         BufferedReader stream = new BufferedReader(new StringReader(serializedData));
-
-        ImportableStringObject deserializedObject = handler.createFromStream(stream, ImportableStringObject.class);
-
-        System.out.println("Deserialized object:\n" + deserializedObject);
-
-        System.out.println("Failed to load object from file.");
+        try {
+            ImportableStringObject deserializedObject = handler.createFromStream(stream, ImportableStringObject.class);
+            System.out.println("Deserialized object:\n" + deserializedObject);
+        } catch (Exception e) {
+            System.out.println("Deserialization failed");
+        }
 
     }
 
