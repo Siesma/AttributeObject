@@ -42,6 +42,9 @@ public class ImportHandler implements ImportHelper {
             }
             stringBuilder.append((char) charRead);
         }
+        if (stringBuilder.isEmpty()) {
+            return null;
+        }
 
         this.fullDataString = stringBuilder.toString();
         this.changedDataString = this.fullDataString;
