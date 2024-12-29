@@ -19,16 +19,31 @@ public abstract class AttrObject<T> {
     private HashMap<Identifier, Attribute<T>> attributeMap;
     private HashMap<String, Identifier> identifierMap;
 
-    private String ownIdentifier;
+    private final String ownIdentifier;
 
+    public AttrObject(String ownIdentifier) {
+        this.ownIdentifier = ownIdentifier;
+    }
 
-    public AttrObject (String identifier, Attribute<T>... attributes) {
+    public AttrObject(String identifier, Attribute<T>... attributes) {
         this.ownIdentifier = identifier;
         init(attributes);
     }
 
+    public AttrObject(String identifier, AttrObject<T>... fields) {
+        this.ownIdentifier = identifier;
+        init(fields);
+    }
+
+    public AttrObject(String identifier, Attribute<T>[] attributes, AttrObject<T>[] fields) {
+        this.ownIdentifier = identifier;
+        init(attributes, fields);
+    }
+
+
     /**
      * A field is a recursive relation, a field represents another AttrObject.
+     *
      * @return Map containing fields.
      */
     protected HashMap<String, AttrObject<T>> getFieldMap() {
@@ -37,6 +52,7 @@ public abstract class AttrObject<T> {
 
     /**
      * An attribute is a qualifier within a field, a simple "ID:Attribute" pair
+     *
      * @return Map containing all attributes of this field.
      */
     protected HashMap<Identifier, Attribute<T>> getAttributeMap() {
@@ -46,21 +62,21 @@ public abstract class AttrObject<T> {
     /**
      * @return A collection of all saved Attributes of this AttrObject
      */
-    public Collection<Attribute<T>> getAllAttributes () {
+    public Collection<Attribute<T>> getAllAttributes() {
         return getAttributeMap().values();
     }
 
     /**
      * @return A collection of all saved Fields of this AttrObject
      */
-    public Collection<AttrObject<T>> getAllFields () {
+    public Collection<AttrObject<T>> getAllFields() {
         return getFieldMap().values();
     }
 
 
-
     /**
      * An Identifier is a qualifier within a field, a simple "ID:Attribute" pair
+     *
      * @return Map containing all identifiers of this field.
      */
     protected HashMap<String, Identifier> getIdentifierMap() {
@@ -87,7 +103,7 @@ public abstract class AttrObject<T> {
     private final String VARIANT_INDICATOR = "Variants";
 
     /**
-     * Initializes the attributeMap and
+     * Initializes the relevant maps required for this structure and parses all needed attributes
      *
      * @param attributes
      */
@@ -96,6 +112,31 @@ public abstract class AttrObject<T> {
         this.identifierMap = new HashMap<>();
         this.attributeMap = new HashMap<>();
         addAttribute(attributes);
+    }
+
+    /**
+     * Initializes the relevant maps required for this structure and parses all needed fields
+     *
+     * @param fields
+     */
+    private void init(AttrObject<T>... fields) {
+        this.fieldMap = new HashMap<>();
+        this.identifierMap = new HashMap<>();
+        this.attributeMap = new HashMap<>();
+        addField(fields);
+    }
+
+    /**
+     * Initializes the relevant maps required for this structure and parses all needed fields and attributes
+     *
+     * @param attributes
+     */
+    private void init(Attribute<T>[] attributes, AttrObject<T>[] fields) {
+        this.fieldMap = new HashMap<>();
+        this.identifierMap = new HashMap<>();
+        this.attributeMap = new HashMap<>();
+        addAttribute(attributes);
+        addField(fields);
     }
 
     /**
@@ -114,8 +155,8 @@ public abstract class AttrObject<T> {
     }
 
 
-    public void adjustAttribute (String lookup, T data) {
-        if(!hasGivenAttribute(lookup).doesExist()) {
+    public void adjustAttribute(String lookup, T data) {
+        if (!hasGivenAttribute(lookup).doesExist()) {
             addAttribute(lookup, data);
         }
         getAttribute(lookup).setData(data);
@@ -184,6 +225,7 @@ public abstract class AttrObject<T> {
 
     /**
      * Primary way of getting an attribute from an identifier
+     *
      * @param lookup Attribute's ID pair
      * @return The attribute.
      * Default return value is an Attribute with no Lookup and data being null
@@ -195,6 +237,7 @@ public abstract class AttrObject<T> {
 
     /**
      * Primary way of accessing the field of an AttrObject
+     *
      * @param lookup of the field
      * @return The given field. Returns null if the lookup is not defined
      */
@@ -218,10 +261,19 @@ public abstract class AttrObject<T> {
      * Secondary way of adding an attribute to the list of Attributes
      *
      * @param lookup of the newly added attribute
-     * @param data of the newly added attribute
+     * @param data   of the newly added attribute
      */
     public void addAttribute(String lookup, T data) {
         addAttribute(new Attribute<>(lookup, data));
+    }
+
+    /**
+     * Overloaded method of adding multiple fields
+     *
+     * @param fields
+     */
+    public void addField(AttrObject<T>... fields) {
+        Arrays.stream(fields).forEach(this::addField);
     }
 
     /**
@@ -305,8 +357,6 @@ public abstract class AttrObject<T> {
     public void removeField(String lookup) {
         this.getFieldMap().remove(lookup);
     }
-
-
 
 
     /**
