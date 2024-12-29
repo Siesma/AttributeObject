@@ -23,6 +23,7 @@ public abstract class AttrObject<T> {
 
     public AttrObject(String ownIdentifier) {
         this.ownIdentifier = ownIdentifier;
+        init();
     }
 
     public AttrObject(String identifier, Attribute<T>... attributes) {
@@ -102,15 +103,19 @@ public abstract class AttrObject<T> {
 
     private final String VARIANT_INDICATOR = "Variants";
 
+    private void init () {
+        this.fieldMap = new HashMap<>();
+        this.identifierMap = new HashMap<>();
+        this.attributeMap = new HashMap<>();
+    }
+
     /**
      * Initializes the relevant maps required for this structure and parses all needed attributes
      *
      * @param attributes
      */
     private void init(Attribute<T>... attributes) {
-        this.fieldMap = new HashMap<>();
-        this.identifierMap = new HashMap<>();
-        this.attributeMap = new HashMap<>();
+        init();
         addAttribute(attributes);
     }
 
@@ -120,9 +125,7 @@ public abstract class AttrObject<T> {
      * @param fields
      */
     private void init(AttrObject<T>... fields) {
-        this.fieldMap = new HashMap<>();
-        this.identifierMap = new HashMap<>();
-        this.attributeMap = new HashMap<>();
+        init();
         addField(fields);
     }
 
@@ -132,9 +135,7 @@ public abstract class AttrObject<T> {
      * @param attributes
      */
     private void init(Attribute<T>[] attributes, AttrObject<T>[] fields) {
-        this.fieldMap = new HashMap<>();
-        this.identifierMap = new HashMap<>();
-        this.attributeMap = new HashMap<>();
+        init();
         addAttribute(attributes);
         addField(fields);
     }
